@@ -3,7 +3,6 @@ import { RouterOutlet } from '@angular/router';
 import { HomeComponent } from './modules/components/home/home.component';
 import { HeaderComponent } from './core/components/header/header.component';
 import { FooterComponent } from './core/components/footer/footer.component';
-import { CartComponent } from './core/components/cart/cart.component';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +10,6 @@ import { CartComponent } from './core/components/cart/cart.component';
   imports: [
     RouterOutlet,
     HeaderComponent,
-    CartComponent,
     HomeComponent,
     FooterComponent,
   ],
