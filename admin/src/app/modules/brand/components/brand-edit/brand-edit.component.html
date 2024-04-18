@@ -1,1 +1,20 @@
-<p>brand-edit works!</p>
+<h2>{{isEdit && id > 0 ? "Edit Brand": "Create New Brand"}}</h2>
+
+<form [formGroup]="brandForm" (submit)="onSubmit()">
+    <div class="w-full flex flex-wrap">
+        <mat-form-field class="w-full">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="name" formControlName="name">
+        </mat-form-field>
+    </div>
+    <div class="w-full flex flex-wrap">
+        <mat-form-field class="w-full">
+            <mat-label>Description</mat-label>
+            <input matInput placeholder="description" formControlName="description">
+        </mat-form-field>
+    </div>
+
+    <button mat-raised-button type="submit" color="primary" [disabled]="!brandForm.valid">{{ isEdit && id > 0 ? 'Update'
+        : 'Save' }}</button>
+
+</form>

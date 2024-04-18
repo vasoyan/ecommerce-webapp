@@ -2,10 +2,10 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'brands',
     children: [
       {
-        path: 'brands',
+        path: '',
         loadComponent: () =>
           import('./brand-list/brand-list.component').then(
             (m) => m.BrandListComponent
@@ -19,19 +19,12 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'edit',
-        loadComponent: () =>
+        path: 'edit/:id',
+        loadChildren: () =>
           import('./brand-edit/brand-edit.component').then(
             (m) => m.BrandEditComponent
           ),
-      },
-      {
-        path: 'details',
-        loadComponent: () =>
-          import('./brand-details/brand-details.component').then(
-            (m) => m.BrandDetailsComponent
-          ),
-      },
+      }
     ],
   },
 ];
