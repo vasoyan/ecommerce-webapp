@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BannerComponent } from '../../../core/components/banner/banner.component';
-import { ProductModalComponent } from '../product/product-modal/product-modal.component';
-import { ProductComponent } from '../product/product-list/product.component';
+import { ProductComponent } from '../../product/components/product-list/product.component';
+import { ProductModalComponent } from '../../product/components/product-modal/product-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +9,7 @@ import { ProductComponent } from '../product/product-list/product.component';
   imports: [
     BannerComponent,
     ProductComponent,
-    ProductModalComponent,
+    ProductModalComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
