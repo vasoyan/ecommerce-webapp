@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-brand-edit',
+  selector: 'app-brand-forms',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -19,10 +19,10 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatIconModule,
   ],
-  templateUrl: './brand-edit.component.html',
-  styleUrl: './brand-edit.component.scss',
+  templateUrl: './brand-forms.component.html',
+  styleUrl: './brand-forms.component.scss',
 })
-export class BrandEditComponent implements OnInit {
+export class BrandFormsComponent implements OnInit {
   id!: number;
   isEdit!: boolean;
   brands?: Brand | null;

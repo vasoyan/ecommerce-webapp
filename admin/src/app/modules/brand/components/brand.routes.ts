@@ -12,17 +12,10 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'add',
-        loadComponent: () =>
-          import('./brand-add/brand-add.component').then(
-            (m) => m.BrandAddComponent
-          ),
-      },
-      {
         path: 'edit/:id',
         loadChildren: () =>
-          import('./brand-edit/brand-edit.component').then(
-            (m) => m.BrandEditComponent
+          import('./brand-forms/brand-forms.component').then(
+            (m) => m.BrandFormsComponent
           ),
       }
     ],
