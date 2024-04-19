@@ -78,7 +78,7 @@ export class BrandListComponent implements OnInit {
   }
 
   onAdd(): void{
-    this._router.navigateByUrl(`/brands/edit`);
+    this._router.navigateByUrl(`/brands/add`);
   }
 
   onEdit(id: number): void{

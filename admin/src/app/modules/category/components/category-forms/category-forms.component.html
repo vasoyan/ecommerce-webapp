@@ -1,6 +1,6 @@
-<h2>{{isEdit && id > 0 ? "Edit Brand": "Create New Brand"}}</h2>
+<h2>{{isEdit && id > 0 ? "Edit Category": "Create New Category"}}</h2>
 
-<form [formGroup]="brandForm" (submit)="onSubmit()">
+<form [formGroup]="categoryForm" (submit)="onSubmit()">
     <div class="w-full flex flex-wrap">
         <mat-form-field class="w-full">
             <mat-label>Name</mat-label>
