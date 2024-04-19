@@ -26,6 +26,7 @@ export class BrandFormsComponent implements OnInit {
   id!: number;
   isEdit!: boolean;
   brands?: Brand | null;
+  route: string = 'brands';
   private subscription: Subscription | undefined;
 
   constructor(
@@ -85,7 +86,7 @@ export class BrandFormsComponent implements OnInit {
         this._brandService.updateBrand(this.id, brand).subscribe({
           next: (updatedBrand: Brand) => {
             console.log('Brand updated successfully:', updatedBrand);
-            this._router.navigate(['/brands']);
+            this._router.navigate([`/${this.route}`]);
           },
           error: (error) => {
             console.error('Error updating brand:', error);
@@ -95,7 +96,7 @@ export class BrandFormsComponent implements OnInit {
         this._brandService.createBrand(brand).subscribe({
           next: (updatedBrand: Brand) => {
             console.log('Brand created successfully:', updatedBrand);
-            this._router.navigate(['/brands']);
+            this._router.navigate([`/${this.route}`]);
           },
           error: (error) => {
             console.error('Error updating brand:', error);

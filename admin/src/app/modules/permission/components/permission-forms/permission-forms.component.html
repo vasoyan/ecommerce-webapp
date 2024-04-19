@@ -1,0 +1,13 @@
+<h2>{{isEdit && id > 0 ? "Edit Permission": "Create New Permission"}}</h2>
+
+<form [formGroup]="permissionForm" (submit)="onSubmit()">
+    <div class="w-full flex flex-wrap">
+        <mat-form-field class="w-full">
+            <input matInput placeholder="name" formControlName="name">
+        </mat-form-field>
+    </div>
+
+    <button type="submit" class="flex-c-m stext-101 cl0 size-125 bg3 hov-btn3 p-lr-15 trans-04">
+        {{ isEdit && id > 0 ? 'Update' : 'Save' }}
+    </button>
+</form>

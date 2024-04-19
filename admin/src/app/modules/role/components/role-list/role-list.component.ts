@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Category } from '../../models/category';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Subscription } from 'rxjs';
-import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { CategoryService } from '../../services/category.service';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { Role } from '../../models/role';
+import { Subscription } from 'rxjs';
+import { RoleService } from '../../services/role.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Router } from '@angular/router';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-category-list',
+  selector: 'app-role-list',
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -22,33 +22,33 @@ import { MatIconModule } from '@angular/material/icon';
     MatSortModule,
     MatPaginatorModule,
   ],
-  templateUrl: './category-list.component.html',
-  styleUrl: './category-list.component.scss',
+  templateUrl: './role-list.component.html',
+  styleUrl: './role-list.component.scss'
 })
-export class CategoryListComponent implements OnInit {
-  displayedColumns: string[] = ['action', 'id', 'name', 'description'];
-  categoryDataSource!: MatTableDataSource<Category>;
-  route: string = 'categories';
+export class RoleListComponent implements OnInit {
+  displayedColumns: string[] = ['action', 'id', 'name'];
+  roleDataSource!: MatTableDataSource<Role>;
+  route: string = 'roles';
   private subscription: Subscription | undefined;
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
-    private _categoryService: CategoryService,
+    private _roleService: RoleService,
     private _liveAnnouncer: LiveAnnouncer,
     private _router: Router
   ) {
-    this.categoryDataSource = new MatTableDataSource<Category>([]);
+    this.roleDataSource = new MatTableDataSource<Role>([]);
   }
 
   ngOnInit(): void {
-    this.loadCategorys();
+    this.loadRoles();
   }
 
   ngAfterViewInit() {
-    this.categoryDataSource.sort = this.sort;
-    this.categoryDataSource.paginator = this.paginator;
+    this.roleDataSource.sort = this.sort;
+    this.roleDataSource.paginator = this.paginator;
   }
 
   ngOnDestroy(): void {
@@ -56,18 +56,19 @@ export class CategoryListComponent implements OnInit {
     this.subscription?.unsubscribe();
   }
 
-  loadCategorys(): void {
-    this.subscription = this._categoryService.getList().subscribe({
-      next: (response: Category[]) => {
+  loadRoles(): void {
+    this.subscription = this._roleService.getList().subscribe({
+      next: (response: Role[]) => {
         if (response && response.length > 0) {
-          this.categoryDataSource.data = response;
+          console.log(response);
+          this.roleDataSource.data = response;
         } else {
-          this.categoryDataSource.data = [];
-          console.error('No categorys found or invalid response:', response);
+          this.roleDataSource.data = [];
+          console.error('No roles found or invalid response:', response);
         }
       },
       error: (error) => {
-        console.error('Error loading categorys:', error);
+        console.error('Error loading roles:', error);
         // Handle error gracefully (e.g., display error message to user)
       },
       complete: () => {
@@ -87,17 +88,17 @@ export class CategoryListComponent implements OnInit {
 
   onDelete(id: number) {
     console.log('delete Id: ' + id);
-    this.subscription = this._categoryService.delete(id).subscribe({
+    this.subscription = this._roleService.delete(id).subscribe({
       next: (response: boolean) => {
         if (response) {
-          console.log('categorys found and deleted:', response);
-          this.loadCategorys();
+          console.log('roles found and deleted:', response);
+          this.loadRoles();
         } else {
-          console.error('No categorys found or invalid response:', response);
+          console.error('No roles found or invalid response:', response);
         }
       },
       error: (error) => {
-        console.error('Error loading categorys:', error);
+        console.error('Error loading roles:', error);
       },
       complete: () => {},
     });
@@ -113,10 +114,10 @@ export class CategoryListComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.categoryDataSource.filter = filterValue.trim().toLowerCase();
+    this.roleDataSource.filter = filterValue.trim().toLowerCase();
 
-    if (this.categoryDataSource.paginator) {
-      this.categoryDataSource.paginator.firstPage();
+    if (this.roleDataSource.paginator) {
+      this.roleDataSource.paginator.firstPage();
     }
   }
 }

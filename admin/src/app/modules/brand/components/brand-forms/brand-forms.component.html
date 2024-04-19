@@ -3,14 +3,12 @@
 <form [formGroup]="brandForm" (submit)="onSubmit()">
     <div class="w-full flex flex-wrap">
         <mat-form-field class="w-full">
-            <mat-label>Name</mat-label>
             <input matInput placeholder="name" formControlName="name">
         </mat-form-field>
     </div>
     <div class="w-full flex flex-wrap">
         <mat-form-field class="w-full">
-            <mat-label>Description</mat-label>
-            <textarea matInput placeholder="description" formControlName="description"></textarea>
+            <textarea matInput placeholder="Description" formControlName="description"></textarea>
         </mat-form-field>
     </div>
     <button type="submit" class="flex-c-m stext-101 cl0 size-125 bg3 bor2 hov-btn3 p-lr-15 trans-04">

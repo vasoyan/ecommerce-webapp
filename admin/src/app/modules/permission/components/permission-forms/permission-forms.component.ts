@@ -4,13 +4,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Permission } from '../../model/permission';
 import { Subscription } from 'rxjs';
-import { Category } from '../../models/category';
-import { CategoryService } from '../../services/category.service';
+import { PermissionService } from '../../services/permission.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-category-forms',
+  selector: 'app-permission-forms',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -19,27 +19,26 @@ import { CategoryService } from '../../services/category.service';
     MatButtonModule,
     MatIconModule,
   ],
-  templateUrl: './category-forms.component.html',
-  styleUrl: './category-forms.component.scss',
+  templateUrl: './permission-forms.component.html',
+  styleUrl: './permission-forms.component.scss',
 })
-export class CategoryFormsComponent implements OnInit {
+export class PermissionFormsComponent implements OnInit {
   id!: number;
   isEdit!: boolean;
-  category?: Category | null;
-  route: string = 'categories';
+  permission?: Permission | null;
+  route: string = 'permissions';
   private subscription: Subscription | undefined;
 
   constructor(
-    private _categoryService: CategoryService,
+    private _permissionService: PermissionService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
     private _formBuilder: FormBuilder
   ) {}
 
-  categoryForm = this._formBuilder.group({
+  permissionForm = this._formBuilder.group({
     id: [0],
     name: ['', Validators.required],
-    description: ['', Validators.required],
   });
 
   ngOnInit(): void {
@@ -57,11 +56,11 @@ export class CategoryFormsComponent implements OnInit {
   }
 
   getBrandById(id: number): void {
-    this.subscription = this._categoryService.getById(id).subscribe({
-      next: (response: Category) => {
+    this.subscription = this._permissionService.getById(id).subscribe({
+      next: (response: Permission) => {
         if (response) {
-          this.category = response;
-          this.categoryForm.patchValue(this.category);
+          this.permission = response;
+          this.permissionForm.patchValue(this.permission);
         } else {
           console.error('No brands found or invalid response:', response);
         }
@@ -74,32 +73,31 @@ export class CategoryFormsComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.categoryForm.valid) {
-      const category: Category = {
+    if (this.permissionForm.valid) {
+      const permission: Permission = {
         id: this.isEdit && this.id > 0 ? this.id : 0,
-        name: this.categoryForm.value.name!,
-        description: this.categoryForm.value.description,
+        name: this.permissionForm.value.name!,
       };
 
-      console.log(category);
+      console.log(permission);
       if (this.isEdit && this.id > 0) {
-        this._categoryService.update(this.id, category).subscribe({
-          next: (updatedBrand: Category) => {
-            console.log('Category updated successfully:', updatedBrand);
+        this._permissionService.update(this.id, permission).subscribe({
+          next: (updatedBrand: Permission) => {
+            console.log('Permission updated successfully:', updatedBrand);
             this._router.navigate([`/${this.route}`]);
           },
           error: (error) => {
-            console.error('Error updating category:', error);
+            console.error('Error updating permission:', error);
           },
         });
       } else {
-        this._categoryService.create(category).subscribe({
-          next: (updatedBrand: Category) => {
-            console.log('Category created successfully:', updatedBrand);
+        this._permissionService.create(permission).subscribe({
+          next: (updatedBrand: Permission) => {
+            console.log('Permission created successfully:', updatedBrand);
             this._router.navigate([`/${this.route}`]);
           },
           error: (error) => {
-            console.error('Error updating category:', error);
+            console.error('Error updating permission:', error);
           },
         });
       }

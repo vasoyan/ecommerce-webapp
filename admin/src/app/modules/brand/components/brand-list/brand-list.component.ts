@@ -30,6 +30,7 @@ export class BrandListComponent implements OnInit {
 
   displayedColumns: string[] = ['action', 'id', 'name', 'description'];
   brandsDataSource!: MatTableDataSource<Brand>;
+  route: string = 'brands';
   private subscription: Subscription | undefined;
 
   @ViewChild(MatSort) sort!: MatSort;
@@ -77,13 +78,13 @@ export class BrandListComponent implements OnInit {
     });
   }
 
-  onAdd(): void{
-    this._router.navigateByUrl(`/brands/add`);
+  onAdd(): void {
+    this._router.navigateByUrl(`/${this.route}/add`);
   }
 
-  onEdit(id: number): void{
-    console.log("id" + id);
-    this._router.navigateByUrl(`/brands/edit/${id}`);
+  onEdit(id: number): void {
+    console.log('id' + id);
+    this._router.navigateByUrl(`/${this.route}/edit/${id}`);
   }
 
   onDelete(id: number) {

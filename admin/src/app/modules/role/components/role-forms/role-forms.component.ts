@@ -4,42 +4,39 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Role } from '../../models/role';
 import { Subscription } from 'rxjs';
-import { Category } from '../../models/category';
-import { CategoryService } from '../../services/category.service';
+import { RoleService } from '../../services/role.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-category-forms',
+  selector: 'app-role-forms',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
+  imports: [ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule,
-  ],
-  templateUrl: './category-forms.component.html',
-  styleUrl: './category-forms.component.scss',
+    MatIconModule,],
+  templateUrl: './role-forms.component.html',
+  styleUrl: './role-forms.component.scss'
 })
-export class CategoryFormsComponent implements OnInit {
+export class RoleFormsComponent implements OnInit {
   id!: number;
   isEdit!: boolean;
-  category?: Category | null;
-  route: string = 'categories';
+  role?: Role | null;
+  route: string = 'roles';
   private subscription: Subscription | undefined;
 
   constructor(
-    private _categoryService: CategoryService,
+    private _roleService: RoleService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
     private _formBuilder: FormBuilder
   ) {}
 
-  categoryForm = this._formBuilder.group({
+  roleForm = this._formBuilder.group({
     id: [0],
     name: ['', Validators.required],
-    description: ['', Validators.required],
   });
 
   ngOnInit(): void {
@@ -57,11 +54,11 @@ export class CategoryFormsComponent implements OnInit {
   }
 
   getBrandById(id: number): void {
-    this.subscription = this._categoryService.getById(id).subscribe({
-      next: (response: Category) => {
+    this.subscription = this._roleService.getById(id).subscribe({
+      next: (response: Role) => {
         if (response) {
-          this.category = response;
-          this.categoryForm.patchValue(this.category);
+          this.role = response;
+          this.roleForm.patchValue(this.role);
         } else {
           console.error('No brands found or invalid response:', response);
         }
@@ -74,32 +71,33 @@ export class CategoryFormsComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.categoryForm.valid) {
-      const category: Category = {
+    console.log(this.roleForm);
+    if (this.roleForm.valid) {
+      const role: Role = {
         id: this.isEdit && this.id > 0 ? this.id : 0,
-        name: this.categoryForm.value.name!,
-        description: this.categoryForm.value.description,
+        name: this.roleForm.value.name!,
+        permissions: []
       };
 
-      console.log(category);
+      console.log(role);
       if (this.isEdit && this.id > 0) {
-        this._categoryService.update(this.id, category).subscribe({
-          next: (updatedBrand: Category) => {
-            console.log('Category updated successfully:', updatedBrand);
+        this._roleService.update(this.id, role).subscribe({
+          next: (updatedBrand: Role) => {
+            console.log('Role updated successfully:', updatedBrand);
             this._router.navigate([`/${this.route}`]);
           },
           error: (error) => {
-            console.error('Error updating category:', error);
+            console.error('Error updating role:', error);
           },
         });
       } else {
-        this._categoryService.create(category).subscribe({
-          next: (updatedBrand: Category) => {
-            console.log('Category created successfully:', updatedBrand);
+        this._roleService.create(role).subscribe({
+          next: (updatedBrand: Role) => {
+            console.log('Role created successfully:', updatedBrand);
             this._router.navigate([`/${this.route}`]);
           },
           error: (error) => {
-            console.error('Error updating category:', error);
+            console.error('Error updating role:', error);
           },
         });
       }
