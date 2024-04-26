@@ -10,6 +10,9 @@ import { Subscription } from 'rxjs';
 import { RoleService } from '../../services/role.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-role-list',
@@ -21,12 +24,15 @@ import { Router } from '@angular/router';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    FormsModule,
+    MatCheckboxModule,
+    CommonModule
   ],
   templateUrl: './role-list.component.html',
-  styleUrl: './role-list.component.scss'
+  styleUrl: './role-list.component.scss',
 })
 export class RoleListComponent implements OnInit {
-  displayedColumns: string[] = ['action', 'id', 'name'];
+  displayedColumns: string[] = ['action', 'id', 'name', 'roles'];
   roleDataSource!: MatTableDataSource<Role>;
   route: string = 'roles';
   private subscription: Subscription | undefined;
@@ -60,7 +66,7 @@ export class RoleListComponent implements OnInit {
     this.subscription = this._roleService.getList().subscribe({
       next: (response: Role[]) => {
         if (response && response.length > 0) {
-          console.log(response);
+          // console.log(response);
           this.roleDataSource.data = response;
         } else {
           this.roleDataSource.data = [];
@@ -82,16 +88,16 @@ export class RoleListComponent implements OnInit {
   }
 
   onEdit(id: number): void {
-    console.log('id' + id);
+    // console.log('id' + id);
     this._router.navigateByUrl(`/${this.route}/edit/${id}`);
   }
 
   onDelete(id: number) {
-    console.log('delete Id: ' + id);
+    // console.log('delete Id: ' + id);
     this.subscription = this._roleService.delete(id).subscribe({
       next: (response: boolean) => {
         if (response) {
-          console.log('roles found and deleted:', response);
+          // console.log('roles found and deleted:', response);
           this.loadRoles();
         } else {
           console.error('No roles found or invalid response:', response);

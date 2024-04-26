@@ -77,6 +77,7 @@ export class PermissionFormsComponent implements OnInit {
       const permission: Permission = {
         id: this.isEdit && this.id > 0 ? this.id : 0,
         name: this.permissionForm.value.name!,
+        isChecked: false
       };
 
       console.log(permission);

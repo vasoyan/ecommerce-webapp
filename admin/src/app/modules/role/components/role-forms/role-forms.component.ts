@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,7 +23,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class RoleFormsComponent implements OnInit {
   id!: number;
   isEdit!: boolean;
-  role?: Role | null;
+  // role?: Role | null;
   route: string = 'roles';
   private subscription: Subscription | undefined;
 
@@ -37,6 +37,7 @@ export class RoleFormsComponent implements OnInit {
   roleForm = this._formBuilder.group({
     id: [0],
     name: ['', Validators.required],
+    permissions: [[]] 
   });
 
   ngOnInit(): void {
@@ -57,8 +58,9 @@ export class RoleFormsComponent implements OnInit {
     this.subscription = this._roleService.getById(id).subscribe({
       next: (response: Role) => {
         if (response) {
-          this.role = response;
-          this.roleForm.patchValue(this.role);
+          // this.role = response;
+          console.log(response);
+          this.roleForm?.patchValue(response);
         } else {
           console.error('No brands found or invalid response:', response);
         }
