@@ -1,3 +1,9 @@
+<!-- - **Dynamic Permissions:** Loops through permissions and creates checkboxes using `*ngFor`.
+- **Conditional Title:** Displays "Edit Role" or "Create New Role" based on edit mode.
+- **Reactive Forms:** Binds form to `roleForm` using `formGroup`.
+- **Material Design:** Utilizes Material components like `mat-form-field` and `mat-checkbox`.
+- **Event Binding:** Binds form submission and checkbox changes to component methods. -->
+
 <h2>{{isEdit && id > 0 ? "Edit Role": "Create New Role"}}</h2>
 
 <form [formGroup]="roleForm" (submit)="onSubmit()">
@@ -7,15 +13,28 @@
         </mat-form-field>
     </div>
     <div class="w-full flex flex-wrap">
-        <p>
-            <!-- @for (let permission of roleForm.value.permissions; trackBy: permission.id) {
-                <mat-checkbox [checked]="permission.isChecked" formControlName="permissions.{{ permission.id }}">
-                    {{ permission.name }}
-                </mat-checkbox>
-            } -->
-        </p>
+        <section>
+            <h4>Select Permissions:</h4>
+            <formArray name="permissions" formControlName="permissions">
+                <ng-container *ngFor="let permission of roleForm.value.permissions; let i = index">
+                    <p>
+                        <mat-checkbox [checked]="permission?.isChecked"
+                            (change)="onPermissionChange(i, $event.checked)">
+                            {{ permission?.name }}
+                        </mat-checkbox>
+                    </p>
+                </ng-container>
+            </formArray>
+        </section>
     </div>
-    <button type="submit" class="flex-c-m stext-101 cl0 size-125 bg3 hov-btn3 p-lr-15 trans-04">
-        {{ isEdit && id > 0 ? 'Update' : 'Save' }}
-    </button>
+    <div class="w-full flex flex-wrap">
+        <button type="submit" class="stext-101 cl0 size-125 bg3 hov-btn3 p-lr-15 trans-04">
+            {{ isEdit && id > 0 ? 'Update' : 'Save' }}
+        </button>
+
+        <button type="button" class="stext-101 cl0 size-125 bg3 hov-btn3 p-lr-15 trans-04 m-l-3"
+            (click)="onCancelClick()">
+            Cancel
+        </button>
+    </div>
 </form>
